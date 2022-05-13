@@ -1,0 +1,31 @@
+name: Release Jar
+
+on:
+  workflow_dispatch:
+    inputs:
+      owner:
+        default: 'touhidurrr'
+        required: true
+      branch:
+        default: 'master'
+        required: true
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+      repository: '${{ github.event.inputs.owner }}/Unciv'
+      ref: ${{ github.event.inputs.owner }}
+    
+    - name: Build jar
+      run: ./gradlew desktop:build
+        
+    - uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ date -u +%s%N }}
+        artifacts: "desktop/build/libs/*"
+        token: ${{ secrets.GITHUB_TOKEN }}
