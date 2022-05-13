@@ -40,6 +40,7 @@ jobs:
 
       - name: Build Apk
         run: |
+          mkdir deploy
           ./gradlew :android:bundleRelease
           ./gradlew :android:assembleRelease
           mv android/build/outputs/apk/release/Unciv-release-unsigned.apk deploy/Unciv.jar
