@@ -17,29 +17,33 @@ jobs:
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: ${{ github.event.inputs.owner }}/Unciv
-        ref: ${{ github.event.inputs.branch }}
+      - uses: actions/setup-java@v1
+        with:
+            java-version: '11'
 
-    - name: Cache multiple paths
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle
-          **/gradle
-        key: ${{ github.event.inputs.owner }}-${{ github.event.inputs.branch }}
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.inputs.owner }}/Unciv
+          ref: ${{ github.event.inputs.branch }}
 
-    - name: Build jar
-      run: |
-        ./gradlew desktop:build
-        ls desktop/build/libs/*
+      - name: Cache multiple paths
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle
+            **/gradle
+          key: ${{ github.event.inputs.owner }}-${{ github.event.inputs.branch }}
 
-    - name: Set Release Tag
-      run: echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
+      - name: Build jar
+        run: |
+          ./gradlew desktop:build
+          ls desktop/build/libs/*
 
-    - uses: ncipollo/release-action@v1
-      with:
-        tag: ${{ env.TAG }}
-        artifacts: "desktop/build/libs/*"
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set Release Tag
+        run: echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
+
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.TAG }}
+          artifacts: "desktop/build/libs/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
