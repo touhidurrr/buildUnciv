@@ -17,23 +17,16 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-
       - uses: actions/checkout@v3
         with:
           repository: ${{ github.event.inputs.owner }}/Unciv
           ref: ${{ github.event.inputs.branch }}
 
-      - name: Cache multiple paths
-        uses: actions/cache@v3
+      - uses: actions/setup-java@v3
         with:
-          path: |
-            ~/.gradle
-            **/gradle
-          key: ${{ github.event.inputs.owner }}-${{ github.event.inputs.branch }}
+          distribution: 'zulu'
+          java-version: '11'
+          cache: 'gradle'
 
       - name: Compile kotlin and build classes
         run: ./gradlew classes
