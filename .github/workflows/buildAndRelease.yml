@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       owner:
-        default: ${{ github.event.repository.owner }}
+        default: 'touhidurrr'
         required: true
       branch:
         default: 'master'
