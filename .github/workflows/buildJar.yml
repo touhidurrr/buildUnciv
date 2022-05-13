@@ -18,8 +18,9 @@ jobs:
       contents: write
     steps:
     - uses: actions/checkout@v3
-      repository: '${{ github.event.inputs.owner }}/Unciv'
-      ref: ${{ github.event.inputs.owner }}
+      with:
+        repository: ${{ github.event.inputs.owner }}/Unciv
+        ref: ${{ github.event.inputs.branch }}
     
     - name: Build jar
       run: ./gradlew desktop:build
