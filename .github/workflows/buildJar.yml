@@ -42,7 +42,7 @@ jobs:
         run: |
           ./gradlew :android:bundleRelease
           ./gradlew :android:assembleRelease
-          ls android/build/outputs/apk/release
+          mv android/build/outputs/apk/release/Unciv-release-unsigned.apk deploy/Unciv.jar
 
       - name: Build Zips and Jars
         run: |
