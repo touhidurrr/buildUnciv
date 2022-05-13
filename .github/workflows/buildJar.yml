@@ -31,7 +31,9 @@ jobs:
         key: ${{ github.event.inputs.owner }}-${{ github.event.inputs.branch }}
 
     - name: Build jar
-      run: ./gradlew desktop:build
+      run: |
+        ./gradlew desktop:build
+        ls desktop/build/libs/*
 
     - name: Set Release Tag
       run: echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
