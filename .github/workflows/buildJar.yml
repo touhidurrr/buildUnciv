@@ -24,9 +24,12 @@ jobs:
     
     - name: Build jar
       run: ./gradlew desktop:build
+      
+    - name: Set Release Tag
+      run: echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
         
     - uses: ncipollo/release-action@v1
       with:
-        tag: ${{ date -u +%s%N }}
+        tag: ${{ env.TAG }}
         artifacts: "desktop/build/libs/*"
         token: ${{ secrets.GITHUB_TOKEN }}
