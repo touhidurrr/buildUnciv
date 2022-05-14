@@ -1,4 +1,4 @@
-name: Release Jar
+name: Build & Release
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '11'
           cache: 'gradle'
 
@@ -59,11 +59,15 @@ jobs:
           ./gradlew server:dist
           mv server/build/libs/UncivServer.jar deploy/UncivServer.jar
 
-      - name: Set Release Tag
-        run: echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
+      - name: Set Envs
+        run: |
+          echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
+          COMMIT_SHA="$(git log --format="%H" -n 1)"
+          printf 'TAG="Built From %s@%s"\n' "${{ github.event.inputs.owner }}:${{ github.event.inputs.branch }}" $COMMIT_SHA >> $GITHUB_ENV
 
       - uses: ncipollo/release-action@v1
         with:
           tag: ${{ env.TAG }}
+          body: ${{ github.event.inputs.owner }}:${{ github.event.inputs.branch }}
           artifacts: "deploy/*"
           token: ${{ secrets.GITHUB_TOKEN }}
