@@ -36,7 +36,7 @@ jobs:
           mkdir deploy
           ./gradlew :android:bundleRelease
           ./gradlew :android:assembleRelease
-          mv android/build/outputs/apk/release/Unciv-release-unsigned.apk deploy/Unciv.jar
+          mv android/build/outputs/apk/release/Unciv-release-unsigned.apk deploy/Unciv.apk
 
       - name: Build Zips and Jars
         run: |
@@ -63,7 +63,7 @@ jobs:
         run: |
           echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
           COMMIT_SHA="$(git log --format="%H" -n 1)"
-          printf 'BODY="Built From %s@%s"\n' "${{ github.event.inputs.owner }}:${{ github.event.inputs.branch }}" $COMMIT_SHA >> $GITHUB_ENV
+          printf 'BODY=Built From %s@%s\n' "${{ github.event.inputs.owner }}:${{ github.event.inputs.branch }}" $COMMIT_SHA >> $GITHUB_ENV
 
       - uses: ncipollo/release-action@v1
         with:
