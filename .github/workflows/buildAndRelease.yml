@@ -36,7 +36,7 @@ jobs:
           mkdir deploy
           ./gradlew :android:bundleRelease
           ./gradlew :android:assembleRelease
-          mv android/build/outputs/apk/release/Unciv-release-unsigned.apk deploy/Unciv.apk
+          mv android/build/outputs/apk/release/Unciv-release-unsigned.apk deploy/Unciv-unsigned.apk
 
       - name: Build Zips and Jars
         run: |
