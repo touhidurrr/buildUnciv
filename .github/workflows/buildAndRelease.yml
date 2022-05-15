@@ -91,6 +91,8 @@ jobs:
   Release:
     runs-on: ubuntu-latest
     needs: [APK, Linux64Zip, Windows32Zip, Windows64Zip, UncivServer]
+    permissions:
+      contents: write
     steps:
       - name: Move Unciv.jar
         run: mv desktop/build/libs/Unciv.jar deploy/Unciv.jar
