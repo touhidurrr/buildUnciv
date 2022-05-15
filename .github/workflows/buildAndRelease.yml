@@ -33,7 +33,7 @@ jobs:
           path: |
             ~/.gradle
             **/gradle
-          key: ${{ hashFiles('**/build.gradle.kts') }}
+          key: ${{ hashFiles('build.gradle.kts', '*/build.gradle.kts') }}
 
       - name: Compile kotlin and build classes
         run: ./gradlew classes
