@@ -6,7 +6,7 @@ on:
       owner:
         default: 'touhidurrr'
         required: true
-      branch:
+      ref:
         default: 'master'
         required: true
 
@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: ${{ github.event.inputs.owner }}/Unciv
-          ref: ${{ github.event.inputs.branch }}
+          ref: ${{ github.event.inputs.ref }}
 
       - uses: actions/setup-java@v3
         with:
@@ -65,8 +65,9 @@ jobs:
       - name: Set Envs
         run: |
           echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
+          BRANCH="$(git rev-parse --abbrev-ref HEAD)"
           COMMIT_SHA="$(git log --format="%H" -n 1)"
-          printf 'BODY=Built From %s@%s\n' "${{ github.event.inputs.owner }}:${{ github.event.inputs.branch }}" $COMMIT_SHA >> $GITHUB_ENV
+          printf 'BODY=Built From %s\n' "${{ github.event.inputs.owner }}:$BRANCH@$COMMIT_SHA" >> $GITHUB_ENV
 
       - uses: ncipollo/release-action@v1
         with:
