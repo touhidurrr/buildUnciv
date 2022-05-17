@@ -67,12 +67,6 @@ jobs:
           ./gradlew server:dist
           mv server/build/libs/UncivServer.jar deploy/UncivServer.jar
 
-      - name: Compress and add Repo and Gradle Cache for Releases
-        run: |
-          mv deploy ~/deploy
-          tar -cavf ~/deploy/gradle-cache.tar.xz ~/.gradle
-          tar -cavf ~/deploy/Unciv.tar.xz ./
-
       - name: Set Envs
         run: |
           echo "TAG=$(date -u +%s%N)" >> $GITHUB_ENV
@@ -84,5 +78,5 @@ jobs:
         with:
           tag: ${{ env.TAG }}
           body: ${{ env.BODY }}
-          artifacts: ~/deploy/*
+          artifacts: deploy/*
           token: ${{ secrets.GITHUB_TOKEN }}
